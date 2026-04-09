@@ -1,2 +1,2 @@
-# dazn-dashboard
+# dazn_dashboard
 DAZN Global Sentiment Dashboard
