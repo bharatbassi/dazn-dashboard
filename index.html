@@ -3,8 +3,8 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>DAZN · Global Sentiment Intelligence v34</title>
-<!-- v34: Nav emojis · DM/PM removed from platform · L1/L2 themes · DoD/WoW/MoM % tooltips · Case normalization · Positive momentum row · Font readability · Platform tooltips · DoD/WoW/MoM charts · True 3D pie · Filter sync · Others visible · DM KPIs -->
+<title>DAZN · Global Sentiment Intelligence </title>
+<!-- : Nav emojis · DM/PM removed from platform · L1/L2 themes · DoD/WoW/MoM % tooltips · Case normalization · Positive momentum row · Font readability · Platform tooltips · DoD/WoW/MoM charts · True 3D pie · Filter sync · Others visible · DM KPIs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
 /*!
@@ -564,6 +564,9 @@ select.fs option{background:var(--s3);}
     <div class="pill pill-live"><div class="blink"></div>LIVE</div>
     <span class="ts" id="updTs" title="Global Dashboard 2026 (4).xlsx (19,932 rows)">⚠️ Auto-load failed — use 📂 Upload Data as fallback</span>
     <button class="btn btn-primary" onclick="document.getElementById(&#39;fi&#39;).click()" title="Select one or more Excel files — they will be merged automatically">📂 Upload Data</button>
+    <button class="btn" id="btnSync" onclick="triggerManualSync()" title="Manually pull latest data from GitHub" style="background:linear-gradient(135deg,#0f2027,#1a2a3a);color:#22d3ee;border:1px solid rgba(34,211,238,.35);font-size:11px;padding:7px 14px;display:flex;align-items:center;gap:6px;transition:all .2s">
+      <span id="syncIcon" style="display:inline-block;transition:transform .6s">🔄</span> Sync Data
+    </button>
     <button class="btn" id="btnReport" style="background: linear-gradient(135deg, rgb(26, 26, 46), rgb(35, 35, 58)); color: rgb(200, 200, 216); border: 1px solid rgb(54, 54, 80); display: inline-block; position: relative; font-size: 12px; padding: 7px 16px;" onclick="toggleReportMenu(this)">📄 Export &amp; Reports ▾</button>
     <div id="reportMenu" style="display: none; position: absolute; top: 54px; right: 28px; background: rgb(19, 19, 26); border: 1px solid rgb(54, 54, 80); border-radius: 10px; z-index: 500; min-width: 290px; overflow: hidden; box-shadow: rgba(0, 0, 0, 0.7) 0px 12px 40px;">
       <div style="padding:10px 16px 6px;background:linear-gradient(135deg,rgba(245,196,0,.08),transparent);border-bottom:1px solid #1e1e2e">
@@ -1221,7 +1224,7 @@ window.addEventListener('scroll',()=>{
   <div class="sh"><span class="sh-tag">Markets</span><span class="sh-title">🌍 Market Performance &amp; Status</span><div class="sh-line"></div></div>
   <div class="g1">
     <div class="card">
-      <div class="card-hd"><div class="card-ttl">Market Performance Table</div><span style="font-size:10px;color:var(--t3)">hover rows for top issues</span></div>
+      <div class="card-hd"><div class="card-ttl">Market Performance Table</div><span style="font-size:10px;color:var(--t3)">hover rows · top 3 positive &amp; negative L2 themes</span></div>
       <table class="tbl" id="mktTbl">
     <thead><tr><th>Market</th><th>Mentions</th><th>Pos%</th><th>Neg%</th><th>NSS</th><th>Status</th></tr></thead>
     <tbody><tr>
@@ -1973,7 +1976,7 @@ window.addEventListener('scroll',()=>{
       <div style="font-size:10px;color:var(--t4);margin-top:6px;font-style:italic">* For methodology please check at the bottom of the dashboard</div>
     </div>
     <div class="kpi kn" style="position:relative;cursor:help;" onmouseenter="this.querySelector(&#39;.nps-tooltip-box&#39;).style.display=&#39;block&#39;" onmouseleave="this.querySelector(&#39;.nps-tooltip-box&#39;).style.display=&#39;none&#39;">
-      <div class="nps-tooltip-box" style="display: none; position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: rgb(26, 26, 36); border: 1px solid rgb(54, 54, 80); border-radius: 8px; padding: 11px 14px; min-width: 220px; max-width: 280px; z-index: 200; font-size: 11px; color: rgb(200, 200, 216); line-height: 1.6; white-space: normal; box-shadow: rgba(0, 0, 0, 0.8) 0px 8px 32px;"><strong style="color:#f43f5e">Detractors (Negative Mentions)</strong><br>These are unhappy users who risk churn and negative word-of-mouth.<br><br>Count: 8,449 mentions<br>Share: 42.4% of total<br>Passives (Neutral): 11,246 (56.4%)<br><br>Weighted 1.5× in NPS calculation. Reducing detractors has greater impact than gaining promoters.</div>
+      <div class="nps-tooltip-box" style="display: none; position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: rgb(26, 26, 36); border: 1px solid rgb(54, 54, 80); border-radius: 8px; padding: 11px 14px; min-width: 220px; max-width: 280px; z-index: 200; font-size: 11px; color: rgb(200, 200, 216); line-height: 1.6; white-space: normal; box-shadow: rgba(0, 0, 0, 0.8) 0px 8px 32px;"><strong style="color:#f43f5e">Detractors (Negative Mentions)</strong><br>These are unhappy users who risk churn and negative word-of-mouth.<br><br>Count: 8,449 mentions<br>Share: 42.4% of total<br>Passives (Neutral): 11,246 (56.4%)<br><br>High detractor share pulls NPS and NSS negative — reducing detractors has greater impact than gaining promoters at this ratio.</div>
       <div class="kpi-lbl">Detractors</div>
       <div class="kpi-val kn-c">42.4%</div>
       <div class="kpi-sub">8,449 negative mentions</div>
@@ -2755,47 +2758,125 @@ document.addEventListener("mousemove", e => {
 });
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  AUTO-LOAD FROM GITHUB (replaces manual upload)
+//  AUTO-LOAD FROM GITHUB (Excel .xlsx file)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-const GITHUB_DATA_URL = "https://raw.githubusercontent.com/aialpha08/Global-Dashboard/main/data.json";
+// ⬇ CHANGE ONLY THIS LINE — paste your raw GitHub URL for data.xlsx
+const GITHUB_DATA_URL = "https://raw.githubusercontent.com/aialpha08/Global-Dashboard/main/data.xlsx";
 
 function loadFromGitHub() {
   const tsEl = document.getElementById("updTs");
-  if(tsEl) tsEl.textContent = "⏳ Loading data…";
+  if (tsEl) tsEl.textContent = "⏳ Loading team data from GitHub…";
 
-  fetch(GITHUB_DATA_URL + "?t=" + Date.now()) // cache-bust
+  // Show banner to all users
+  let banner = document.getElementById("githubSyncBanner");
+  if (!banner) {
+    banner = document.createElement("div");
+    banner.id = "githubSyncBanner";
+    banner.style.cssText = [
+      "position:fixed","top:0","left:0","right:0","z-index:99999",
+      "background:#1a1a2e","border-bottom:2px solid #F5C400",
+      "color:#F5C400","font-family:'Barlow Condensed',sans-serif",
+      "font-size:13px","font-weight:700","letter-spacing:.5px",
+      "padding:8px 20px","text-align:center","transition:all .3s"
+    ].join(";");
+    document.body.prepend(banner);
+  }
+  banner.style.display = "block";
+  banner.textContent = "⏳ Loading team data from GitHub…";
+
+  // Fetch the Excel file as binary, parse with XLSX (same as manual upload)
+  fetch(GITHUB_DATA_URL + "?t=" + Date.now())
     .then(r => {
-      if(!r.ok) throw new Error("HTTP " + r.status);
-      return r.json();
+      if (!r.ok) throw new Error("HTTP " + r.status + " — check the file exists in your GitHub repo and is named data.xlsx");
+      return r.arrayBuffer();
     })
-    .then(raw => {
-      if(!Array.isArray(raw) || raw.length === 0) throw new Error("Empty or invalid data.json");
+    .then(buffer => {
+      // Convert ArrayBuffer to binary string for XLSX
+      const bytes = new Uint8Array(buffer);
+      let binary = "";
+      for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
 
-      const {nd, skipped} = parseSheetRows(raw);
-      if(!nd.length) throw new Error("No valid rows parsed. Check column names in your Excel sheet.");
+      // Parse Excel exactly like handleUpload does
+      const wb = XLSX.read(binary, { type: "binary" });
+      const sheetName = wb.SheetNames.includes("Data") ? "Data" : wb.SheetNames[0];
+      const raw = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { raw: true, defval: "" });
 
-      nd.sort((a,b) => a.d < b.d ? -1 : a.d > b.d ? 1 : 0);
-      allData = nd; window.allData = nd;
-      populateFilters(); go();
+      if (!Array.isArray(raw) || raw.length === 0)
+        throw new Error("Excel file is empty or has no readable rows. Check the sheet is named 'Data' or is the first sheet.");
 
-      const dates = nd.map(r=>r.d).sort();
-      const dateRange = dates[0] + " → " + dates[dates.length-1];
-      if(tsEl) {
-        tsEl.textContent = "✓ " + nd.length.toLocaleString() + " rows · " + dateRange + " · Auto-loaded";
+      const { nd, skipped } = parseSheetRows(raw);
+      if (!nd.length)
+        throw new Error("No valid rows parsed. Make sure your Excel has columns: Date, Sentiment, Platform, Market, Category.");
+
+      nd.sort((a, b) => a.d < b.d ? -1 : a.d > b.d ? 1 : 0);
+      allData = nd;
+      window.allData = nd;
+      populateFilters();
+      go();
+
+      const dates = nd.map(r => r.d).sort();
+      const dateRange = dates[0] + " → " + dates[dates.length - 1];
+
+      if (tsEl) {
+        tsEl.textContent = "✓ " + nd.length.toLocaleString() + " rows · " + dateRange + " · Auto-loaded from GitHub";
         tsEl.title = "Source: GitHub · " + GITHUB_DATA_URL;
       }
       document.getElementById("btnReport").style.display = "inline-block";
-      if(skipped.length) console.warn("Skipped rows:", skipped.length);
-      console.log("✅ Dashboard loaded from GitHub:", nd.length, "rows");
+
+      // Show green success banner, then hide
+      banner.style.borderBottomColor = "#22c55e";
+      banner.style.background = "#0d1f0d";
+      banner.style.color = "#22c55e";
+      banner.textContent = "✅ Team data loaded — " + nd.length.toLocaleString() + " rows · " + dateRange;
+      setTimeout(() => { banner.style.display = "none"; }, 4000);
+
+      if (skipped.length) console.warn("Skipped rows:", skipped.length);
+      console.log("✅ Dashboard loaded from GitHub Excel:", nd.length, "rows");
     })
     .catch(err => {
       console.error("GitHub load failed:", err.message);
-      if(tsEl) tsEl.textContent = "⚠️ Auto-load failed — use 📂 Upload Data as fallback";
+      if (tsEl) tsEl.textContent = "⚠️ Auto-load failed — use 📂 Upload Data button as fallback";
+
+      // Show red error banner
+      banner.style.borderBottomColor = "#ef4444";
+      banner.style.background = "#1f0d0d";
+      banner.style.color = "#ef4444";
+      banner.textContent = "⚠️ Could not load team data from GitHub: " + err.message;
+      setTimeout(() => { banner.style.display = "none"; }, 8000);
     });
 }
 
-// Auto-refresh every 5 minutes to pick up SharePoint updates
-setInterval(loadFromGitHub, 5 * 60 * 1000);
+// Auto-refresh disabled — use the 🔄 Sync Data button to manually pull latest data
+// setInterval(loadFromGitHub, 5 * 60 * 1000);
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  MANUAL SYNC BUTTON HANDLER
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function triggerManualSync() {
+  const btn = document.getElementById('btnSync');
+  const icon = document.getElementById('syncIcon');
+  if (!btn || !icon) { loadFromGitHub(); return; }
+
+  // Animate icon spin
+  icon.style.animation = 'spin 1s linear infinite';
+  btn.style.opacity = '0.7';
+  btn.style.pointerEvents = 'none';
+  btn.title = 'Syncing…';
+
+  // Run the load
+  loadFromGitHub();
+
+  // Reset button state after 5 s (whether success or fail, banner already shows status)
+  setTimeout(() => {
+    icon.style.animation = '';
+    btn.style.opacity = '1';
+    btn.style.pointerEvents = 'auto';
+    btn.title = 'Manually pull latest data from GitHub';
+    // Flash border to confirm done
+    btn.style.borderColor = '#22c55e88';
+    setTimeout(() => { btn.style.borderColor = 'rgba(34,211,238,.35)'; }, 1500);
+  }, 5000);
+}
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  UPLOAD
@@ -3591,10 +3672,6 @@ Return ONLY a valid JSON array (no markdown, no preamble). Each object:
   });
 }
 
-// Track ongoing AI brief request to avoid duplicate calls
-let briefAiGen = 0;
-
-
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  LOCAL VERBATIM INTELLIGENCE ENGINE
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -3891,6 +3968,7 @@ function renderBrief(data) {
   document.getElementById("bBody").innerHTML=`<span style="color:var(--t3);font-size:11px">✨ Generating AI insight…</span>`;
 
   // Cancel any in-flight request
+  if (typeof briefAiGen === 'undefined') window.briefAiGen = 0;
   briefAiGen++; const _briefGen = briefAiGen;
 
   // ── Build AI prompt ──
@@ -4760,13 +4838,76 @@ function renderMktPerf(data) {
     const nss2=s.tot?Math.round((s.pos-s.neg)/s.tot*100):0;
     const status=np>65?"🔴 Crisis":np>50?"🟠 High Risk":np>35?"🟡 Monitor":"🟢 Stable";
     const nssCol=nss2>=0?"var(--pos)":"var(--neg)";
-    return {m,tot:s.tot,pp,np,nss:nss2,nssCol,status,ord:np>65?4:np>50?3:np>35?2:1};
+
+    // ── Top 3 Negative L2 themes ──
+    const negScMap={};
+    d.filter(r=>r.s==="negative"&&r.sc).forEach(r=>{const k=r.sc.trim();negScMap[k]=(negScMap[k]||0)+1;});
+    const top3neg=Object.entries(negScMap).sort((a,b)=>b[1]-a[1]).slice(0,3);
+
+    // ── Top 3 Positive L2 themes ──
+    const posScMap={};
+    d.filter(r=>r.s==="positive"&&r.sc).forEach(r=>{const k=r.sc.trim();posScMap[k]=(posScMap[k]||0)+1;});
+    const top3pos=Object.entries(posScMap).sort((a,b)=>b[1]-a[1]).slice(0,3);
+
+    // ── Build tooltip HTML ──
+    const negRows=top3neg.map(([k,v],i)=>{
+      const share=s.neg?Math.round(v/s.neg*100):0;
+      const bar=Math.min(share*1.5,100);
+      return `<div style="margin-bottom:5px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+          <span style="font-size:10px;color:var(--t2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${i+1}. ${k}</span>
+          <span style="font-size:10px;font-weight:700;color:var(--neg);white-space:nowrap">${v} <span style="color:var(--t4);font-weight:400">(${share}%)</span></span>
+        </div>
+        <div style="height:3px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:2px"><div style="height:100%;width:${bar}%;background:var(--neg);opacity:.75;border-radius:2px"></div></div>
+      </div>`;
+    }).join("");
+
+    const posRows=top3pos.map(([k,v],i)=>{
+      const share=s.pos?Math.round(v/s.pos*100):0;
+      const bar=Math.min(share*1.5,100);
+      return `<div style="margin-bottom:5px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+          <span style="font-size:10px;color:var(--t2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${i+1}. ${k}</span>
+          <span style="font-size:10px;font-weight:700;color:var(--pos);white-space:nowrap">${v} <span style="color:var(--t4);font-weight:400">(${share}%)</span></span>
+        </div>
+        <div style="height:3px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:2px"><div style="height:100%;width:${bar}%;background:var(--pos);opacity:.75;border-radius:2px"></div></div>
+      </div>`;
+    }).join("");
+
+    const riskCol=np>65?"var(--neg)":np>50?"var(--warn)":np>35?"var(--yel)":"var(--pos)";
+
+    const ttHtml=`<div class="mkt-row-tt" style="display:none;position:absolute;left:0;top:calc(100% + 2px);z-index:9999;background:#12121a;border:1px solid #2a2a38;border-left:3px solid ${riskCol};border-radius:10px;padding:13px 15px;min-width:290px;max-width:340px;box-shadow:0 12px 40px rgba(0,0,0,.85);pointer-events:none;font-family:'Barlow',sans-serif">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;color:#f0f0f5;text-transform:uppercase;letter-spacing:.5px">${m}</span>
+        <span style="font-size:9px;font-weight:700;color:${riskCol};background:${riskCol}22;border:1px solid ${riskCol}44;border-radius:4px;padding:2px 8px">${status}</span>
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #1e1e2e">
+        <div style="text-align:center;flex:1"><div style="font-size:9px;color:var(--t4);margin-bottom:2px">Total</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--yel)">${s.tot.toLocaleString()}</div></div>
+        <div style="text-align:center;flex:1"><div style="font-size:9px;color:var(--t4);margin-bottom:2px">Neg%</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--neg)">${np}%</div></div>
+        <div style="text-align:center;flex:1"><div style="font-size:9px;color:var(--t4);margin-bottom:2px">Pos%</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--pos)">${pp}%</div></div>
+        <div style="text-align:center;flex:1"><div style="font-size:9px;color:var(--t4);margin-bottom:2px">NSS</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:${nssCol}">${nss2>=0?"+":""}${nss2}</div></div>
+      </div>
+      ${top3neg.length?`
+      <div style="margin-bottom:8px">
+        <div style="font-size:9px;font-weight:800;color:var(--neg);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px">🔴 Top 3 Negative L2 Themes</div>
+        ${negRows}
+      </div>`:""}
+      ${top3pos.length?`
+      <div style="border-top:1px solid #1e1e2e;padding-top:8px">
+        <div style="font-size:9px;font-weight:800;color:var(--pos);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px">✅ Top 3 Positive L2 Themes</div>
+        ${posRows}
+      </div>`:"<div style='font-size:10px;color:var(--t4);padding-top:4px;border-top:1px solid #1e1e2e;margin-top:6px'>No positive L2 themes in this market</div>"}
+    </div>`.replace(/\n\s*/g," ");
+
+    return {m,tot:s.tot,pp,np,nss:nss2,nssCol,status,ord:np>65?4:np>50?3:np>35?2:1,ttHtml};
   }).sort((a,b)=>a.np-b.np);
 
   document.getElementById("mktTbl").innerHTML=`
     <thead><tr><th>Market</th><th>Mentions</th><th>Pos%</th><th>Neg%</th><th>NSS</th><th>Status</th></tr></thead>
-    <tbody>${rows.map(r=>`<tr>
-      <td style="color:var(--t1);font-weight:600">${r.m}</td>
+    <tbody>${rows.map(r=>`<tr style="position:relative;cursor:default;transition:background .12s"
+      onmouseenter="this.style.background='rgba(245,196,0,.04)';this.querySelector('.mkt-row-tt').style.display='block'"
+      onmouseleave="this.style.background='';this.querySelector('.mkt-row-tt').style.display='none'">
+      <td style="color:var(--t1);font-weight:600;position:relative">${r.ttHtml}${r.m}</td>
       <td>${r.tot.toLocaleString()}</td>
       <td style="color:var(--pos)">${r.pp}%</td>
       <td><span style="color:var(--neg)">${r.np}%</span><span class="tbl-bar" style="width:${Math.min(r.np*.55,55)}px;background:var(--neg);opacity:.4"></span></td>
@@ -6838,8 +6979,6 @@ function renderNegMktBar(d, topSubLabels, type) {
   if(CHARTS["negMktBar"]) CHARTS["negMktBar"].destroy();
   const el=document.getElementById("negMktBar"); if(!el) return;
   // Sort markets by total negatives descending
-  const mktNegCount={};
-  d.forEach(r=>{mktNegCount[r.m]=(mktNegCount[r.m]||0)+1;});
   const mkts=[...new Set(d.map(r=>r.m))].sort((a,b)=>
     (d.filter(r=>r.m===b).length)-(d.filter(r=>r.m===a).length)
   );
@@ -6847,52 +6986,112 @@ function renderNegMktBar(d, topSubLabels, type) {
   const scAllMap={};
   d.forEach(r=>{const k=(r.sc||'').trim()||'(Unclassified)';scAllMap[k]=(scAllMap[k]||0)+1;});
   const topL2Subs=Object.entries(scAllMap).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k])=>k);
+
+  // Enhanced color palette — distinct, vivid, DAZN-dark-friendly
+  const ENHANCED_PALETTE = [
+    "#f43f5e","#fb923c","#facc15","#4ade80","#38bdf8","#a78bfa","#f472b6","#34d399",
+    "#fbbf24","#60a5fa","#e879f9","#2dd4bf"
+  ];
+
   const datasets=topL2Subs.map((sub,i)=>({
-    label:sub.length>22?sub.substring(0,20)+"…":sub,
-    data:mkts.map(m=>d.filter(r=>r.m===m&&((r.sc||'').trim()||'(Unclassified)')===sub).length),
-    backgroundColor:NEG_COLORS[i]+"cc",
-    borderColor:NEG_COLORS[i],borderWidth:1,borderRadius:3,borderSkipped:false
+    label: sub.length>26 ? sub.substring(0,24)+"…" : sub,
+    data: mkts.map(m=>d.filter(r=>r.m===m&&((r.sc||'').trim()||'(Unclassified)')===sub).length),
+    backgroundColor: ENHANCED_PALETTE[i%ENHANCED_PALETTE.length]+"cc",
+    borderColor: ENHANCED_PALETTE[i%ENHANCED_PALETTE.length],
+    borderWidth: 1.5,
+    borderRadius: type==="stacked"?0:4,
+    borderSkipped: false,
+    hoverBackgroundColor: ENHANCED_PALETTE[i%ENHANCED_PALETTE.length]+"ff",
   }));
+
+  const allTotNeg = d.length||1;
+
   CHARTS["negMktBar"]=new Chart(el,{
     type:"bar",
-    data:{labels:mkts, datasets},
+    data:{labels: mkts.map(m=>{
+      const mNeg=d.filter(r=>r.m===m).length;
+      const mAll=window.allData?.filter(r=>r.m===m)||[];
+      const negPct = mAll.length ? Math.round(mNeg/mAll.length*100) : 0;
+      return m + (negPct ? ` (${negPct}% neg)` : "");
+    }), datasets},
     options:{
       responsive:true,maintainAspectRatio:false,
       indexAxis: "y",
+      animation:{duration:700,easing:"easeOutQuart"},
+      layout:{padding:{right:10,top:4,bottom:4}},
       scales:{
-        x:{stacked:type==="stacked",grid:{color:"rgba(255,255,255,.05)"},ticks:{color:"#c8c8d8",font:{size:9}},border:{color:"transparent"}},
-        y:{stacked:type==="stacked",grid:{color:"rgba(255,255,255,.05)"},ticks:{color:"#c8c8d8",font:{size:10,weight:"600"}},border:{color:"transparent"}}
+        x:{
+          stacked:type==="stacked",
+          grid:{color:"rgba(255,255,255,.06)",lineWidth:1},
+          ticks:{color:"#8888a0",font:{size:9}},
+          border:{color:"transparent"},
+          title:{display:true,text:"Negative Mention Count",color:"#555568",font:{size:9,weight:"600"}}
+        },
+        y:{
+          stacked:type==="stacked",
+          grid:{display:false},
+          ticks:{
+            color:"#c8c8d8",
+            font:{size:10,weight:"700"},
+            crossAlign:"far",
+          },
+          border:{color:"transparent"}
+        }
       },
       plugins:{
-        legend:{display:true,labels:{color:"#c8c8d8",font:{size:9},boxWidth:8,padding:6}},
-        tooltip:{...tooltipPlugin(),callbacks:{
-          title:ctx=>{
-            const mkt=mkts[ctx[0].dataIndex];
-            const mTotal=d.filter(r=>r.m===mkt).length;
-            const mktAll=getFiltered().filter(r=>r.m===mkt);
-            const negRate=mktAll.length?Math.round(mTotal/mktAll.length*100):0;
-            const mktNss=mktAll.length?Math.round((mktAll.filter(r=>r.s==="positive").length-mTotal)/mktAll.length*100):0;
-            return [`${mkt}  ·  ${mTotal.toLocaleString()} negatives`,`Neg rate: ${negRate}%  ·  NSS: ${mktNss>=0?"+":""}${mktNss}`];
-          },
-          label:ctx=>{
-            const mkt=mkts[ctx[0].dataIndex];
-            const mTotal=d.filter(r=>r.m===mkt).length||1;
-            const val=ctx.parsed.x;
-            const share=Math.round(val/mTotal*100);
-            return `[L2] ${ctx.dataset.label}: ${val.toLocaleString()}  (${share}% of mkt neg)`;
-          },
-          afterBody:ctx=>{
-            const mkt=mkts[ctx[0].dataIndex];
-            const mktNeg=d.filter(r=>r.m===mkt);
-            const mTotal=mktNeg.length||1;
-            const scV={};mktNeg.forEach(r=>{const k=(r.sc||"").trim()||"(Unclassified)";scV[k]=(scV[k]||0)+1;});
-            const top5=Object.entries(scV).sort((a,b)=>b[1]-a[1]).slice(0,5);
-            return top5.length?["","All L2 Sub-Categories (neg volume):",...top5.map(([k,v])=>`  • ${k}: ${v.toLocaleString()} (${Math.round(v/mTotal*100)}%)`)] : [];
+        legend:{
+          display:true,
+          position:"bottom",
+          labels:{
+            color:"#c8c8d8",
+            font:{size:9},
+            boxWidth:10,
+            padding:8,
+            usePointStyle:true,
+            pointStyle:"rect"
           }
-        }},
+        },
+        tooltip:{
+          ...tooltipPlugin(),
+          callbacks:{
+            title:ctx=>{
+              const rawLabel=mkts[ctx[0].dataIndex];
+              const mkt=rawLabel;
+              const mTotal=d.filter(r=>r.m===mkt).length;
+              const mktAll=getFiltered().filter(r=>r.m===mkt);
+              const negRate=mktAll.length?Math.round(mTotal/mktAll.length*100):0;
+              const mktNss=mktAll.length?Math.round((mktAll.filter(r=>r.s==="positive").length-mTotal)/mktAll.length*100):0;
+              return [`${mkt}  ·  ${mTotal.toLocaleString()} negatives`,`Neg rate: ${negRate}%  ·  NSS: ${mktNss>=0?"+":""}${mktNss}`];
+            },
+            label:ctx=>{
+              const mkt=mkts[ctx.dataIndex];
+              const mTotal=d.filter(r=>r.m===mkt).length||1;
+              const val=ctx.parsed.x;
+              const share=Math.round(val/mTotal*100);
+              const subName=topL2Subs[ctx.datasetIndex]||ctx.dataset.label;
+              // negative rate for this sub within this market
+              const mktSubAll=getFiltered().filter(r=>r.m===mkt&&((r.sc||'').trim()||'(Unclassified)')===subName);
+              const subNegRate=mktSubAll.length?Math.round(val/mktSubAll.length*100):0;
+              return `[L2] ${ctx.dataset.label}: ${val.toLocaleString()}  (${share}% of mkt neg · ${subNegRate}% neg rate)`;
+            },
+            afterBody:ctx=>{
+              const mkt=mkts[ctx[0].dataIndex];
+              const mktNeg=d.filter(r=>r.m===mkt);
+              const mTotal=mktNeg.length||1;
+              const scV={};mktNeg.forEach(r=>{const k=(r.sc||"").trim()||"(Unclassified)";scV[k]=(scV[k]||0)+1;});
+              const top5=Object.entries(scV).sort((a,b)=>b[1]-a[1]).slice(0,5);
+              return top5.length?["","All L2 Sub-Categories (neg volume):",...top5.map(([k,v])=>`  • ${k}: ${v.toLocaleString()} (${Math.round(v/mTotal*100)}%)`)] : [];
+            }
+          }
+        },
         datalabels:{
-          display:true, anchor:"end", align:"end", offset:2,
-          color:"#c8c8d8", font:{size:8,weight:"700"},
+          display: ctx => {
+            const v = ctx.dataset.data[ctx.dataIndex];
+            return v > 5; // only show label if bar is big enough
+          },
+          anchor:"center", align:"center", offset:0,
+          color:"rgba(255,255,255,.85)",
+          font:{size:8,weight:"800",family:"'Barlow Condensed',sans-serif"},
           formatter:(v)=>v>0?v.toLocaleString():""
         }
       }
@@ -6939,6 +7138,11 @@ function renderNegTrend(d, type) {
 function renderNegDeepTable(sorted, total, d) {
   const el=document.getElementById("negDeepTable"); if(!el) return;
   document.getElementById("negTblCount").textContent=`${sorted.length} sub-categories · ${total.toLocaleString()} negatives`;
+
+  // Pre-compute category total volumes for "neg rate vs category volume"
+  const catVolMap={};
+  getFiltered().forEach(r=>{if(r.c)catVolMap[r.c]=(catVolMap[r.c]||0)+1;});
+
   el.innerHTML=`<thead><tr>
     <th>#</th><th>Sub-Category</th><th>Count</th><th>Share %</th><th>Neg Rate Bar</th><th>Top Category</th><th>Markets</th>
   </tr></thead><tbody>`+sorted.map(([sub,v],i)=>{
@@ -6955,14 +7159,61 @@ function renderNegDeepTable(sorted, total, d) {
     const mktCount = v.mkts ? v.mkts.size : 0;
     const negImpact = total ? Math.round(v.count/total*100) : 0;
     const riskLevel = negImpact>15?'🔴 Critical':negImpact>8?'🟠 High':negImpact>4?'🟡 Medium':'🟢 Low';
+
+    // ── NEW: Neg rate by category volume ──
+    // For each L1 category this sub-cat appears in, show neg count / total category volume
+    const catBreakdown = [...v.cats].map(cat=>{
+      const catTotal = catVolMap[cat]||0;
+      const catNegForSub = d.filter(r=>(r.sc||'').toLowerCase()===sub.toLowerCase()&&r.c===cat&&r.s==='negative').length;
+      const negRateByCatVol = catTotal ? Math.round(catNegForSub/catTotal*100) : 0;
+      return {cat, catTotal, catNegForSub, negRateByCatVol};
+    }).filter(x=>x.catNegForSub>0).sort((a,b)=>b.catNegForSub-a.catNegForSub);
+
+    // ── NEW: Per-market neg rate rows ──
+    const mktBreakdown = [...v.mkts].map(mkt=>{
+      const mktAll=getFiltered().filter(r=>r.m===mkt);
+      const mktNegForSub=d.filter(r=>(r.sc||'').toLowerCase()===sub.toLowerCase()&&r.m===mkt&&r.s==='negative').length;
+      const mktNegRate=mktAll.length?Math.round(mktNegForSub/mktAll.length*100):0;
+      return {mkt,mktNegForSub,mktNegRate,mktTot:mktAll.length};
+    }).filter(x=>x.mktNegForSub>0).sort((a,b)=>b.mktNegForSub-a.mktNegForSub).slice(0,4);
+
     // Flip tooltip: first 3 rows → appear BELOW; rest → appear ABOVE
     const ttPos = i<3 ? 'top:calc(100% + 4px);bottom:auto' : 'bottom:calc(100% + 4px);top:auto';
-    const tipHtml = `<div style="position:absolute;display:none;${ttPos};left:0;background:#1a1a24;border:1px solid #363650;border-radius:8px;padding:12px 15px;min-width:270px;max-width:320px;z-index:99999;font-size:11px;color:#c8c8d8;line-height:1.7;white-space:normal;box-shadow:0 8px 32px rgba(0,0,0,.85);pointer-events:none" class="neg-tt">
+
+    const catRateRows = catBreakdown.map(x=>`
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;gap:8px">
+        <span style="color:var(--t3);font-size:10px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${x.cat}</span>
+        <span style="color:var(--neg);font-weight:700;white-space:nowrap">${x.negRateByCatVol}% of cat vol</span>
+        <span style="color:var(--t4);font-size:10px;white-space:nowrap">(${x.catNegForSub}/${x.catTotal})</span>
+      </div>
+      <div style="height:3px;background:var(--s5);border-radius:2px;margin-bottom:5px"><div style="height:100%;width:${Math.min(x.negRateByCatVol,100)}%;background:var(--neg);opacity:.7;border-radius:2px"></div></div>
+    `).join("");
+
+    const mktRateRows = mktBreakdown.map(x=>`
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;gap:8px">
+        <span style="color:var(--t3);font-size:10px">${x.mkt}</span>
+        <span style="color:var(--warn);font-weight:700;white-space:nowrap">${x.mktNegRate}% neg rate</span>
+        <span style="color:var(--t4);font-size:10px;white-space:nowrap">${x.mktNegForSub} mentions</span>
+      </div>
+    `).join("");
+
+    const tipHtml = `<div style="position:absolute;display:none;${ttPos};left:0;background:#1a1a24;border:1px solid #363650;border-radius:8px;padding:12px 15px;min-width:300px;max-width:360px;z-index:99999;font-size:11px;color:#c8c8d8;line-height:1.7;white-space:normal;box-shadow:0 8px 32px rgba(0,0,0,.85);pointer-events:none" class="neg-tt">
       <strong style="color:#f0f0f5;font-size:12.5px">${sub}</strong>
       <div style="border-top:1px solid #363650;margin:7px 0"></div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>📊 Total mentions</span><span style="color:var(--yel);font-weight:700">${v.count.toLocaleString()}</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>📊 Total mentions (in negatives)</span><span style="color:var(--yel);font-weight:700">${v.count.toLocaleString()}</span></div>
       <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>📉 Share of all negatives</span><span style="color:${col};font-weight:700">${share}%</span></div>
       <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>❌ Neg rate within sub-cat</span><span style="color:var(--neg);font-weight:700">${negR2}%</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>✅ Pos rate within sub-cat</span><span style="color:var(--pos);font-weight:700">${posR2}%</span></div>
+      ${catBreakdown.length?`
+      <div style="border-top:1px solid #363650;margin:7px 0"></div>
+      <div style="font-size:10px;color:var(--yel);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">📂 Neg Rate by Category Volume</div>
+      ${catRateRows}
+      `:""}
+      ${mktBreakdown.length?`
+      <div style="border-top:1px solid #363650;margin:7px 0"></div>
+      <div style="font-size:10px;color:var(--neu);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">🌍 By Market</div>
+      ${mktRateRows}
+      `:""}
       <div style="border-top:1px solid #363650;margin:7px 0"></div>
       <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>⚠️ Risk priority</span><span style="font-weight:700">${riskLevel}</span></div>
       <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>🏷️ L1 Category</span><span style="color:var(--t2)">${topCat}</span></div>
@@ -7063,7 +7314,7 @@ function renderNpsNss(data) {
       ${methNote}
     </div>
     <div class="kpi kn" style="${tipStyle}" onmouseenter="this.querySelector('.nps-tooltip-box').style.display='block'" onmouseleave="this.querySelector('.nps-tooltip-box').style.display='none'">
-      ${mkTip(`<strong style="color:#f43f5e">Detractors (Negative Mentions)</strong><br>These are unhappy users who risk churn and negative word-of-mouth.<br><br>Count: ${neg.toLocaleString()} mentions<br>Share: ${np}% of total<br>Passives (Neutral): ${neu.toLocaleString()} (${up}%)<br><br>Weighted 1.5× in NPS calculation. Reducing detractors has greater impact than gaining promoters.`)}
+      ${mkTip(`<strong style="color:#f43f5e">Detractors (Negative Mentions)</strong><br>These are unhappy users who risk churn and negative word-of-mouth.<br><br>Count: ${neg.toLocaleString()} mentions<br>Share: ${np}% of total<br>Passives (Neutral): ${neu.toLocaleString()} (${up}%)<br><br>High detractor share pulls NPS and NSS negative — reducing detractors has greater impact than gaining promoters at this ratio.`)}
       <div class="kpi-lbl">Detractors</div>
       <div class="kpi-val kn-c">${np}%</div>
       <div class="kpi-sub">${neg.toLocaleString()} negative mentions</div>
@@ -7340,7 +7591,7 @@ function renderNpsTable(data) {
       <td style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:var(--t2)">${tot.toLocaleString()}</td>
     </tr>`;
   });
-  el.innerHTML=`<thead><tr><th>Market</th><th>NSS</th><th>NSS Zone</th><th>NPS</th><th>NPS Zone</th><th>Promoters</th><th>Detractors</th><th>Passives</th><th>Mentions</th></tr></thead><tbody>${rows.join("")}</tbody>`;
+  el.innerHTML=`<thead><tr><th>Market</th><th>NSS</th><th>NSS Zone</th><th>NPS</th><th>NPS Zone</th><th>NSS vs NPS Δ</th><th>Promoters</th><th>Detractors</th><th>Passives</th><th>Mentions</th></tr></thead><tbody>${rows.join("")}</tbody>`;
 }
 
 function npsVswitch(type, btn) {
@@ -8888,3 +9139,9 @@ window.addEventListener('scroll',()=>{
 })();
 </script>
 </script>
+<script>
+  fetch('https://raw.githubusercontent.com/AIAlpha08/<repo>/main/data.json')
+    .then(r => r.json())
+    .then(data => {
+      console.log(data); // your SharePoint records
+      renderDashboard(data); // you
